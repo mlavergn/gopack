@@ -1,7 +1,7 @@
 [![Build Status](https://github.com/mlavergn/gopack/workflows/CI/badge.svg?branch=master)](https://github.com/mlavergn/gopack/actions)
 [![Go Report](https://goreportcard.com/badge/github.com/mlavergn/gopack)](https://goreportcard.com/report/github.com/mlavergn/gopack)
 
-# GO Pack
+# Go Pack
 
 Lightweight dependency-free embedding of static files into Go executables
 
@@ -31,12 +31,20 @@ For the purposes of the included demo, the following steps generate the expected
 The API is basic:
 
 ```golang
+package main
+
+import "github.com/mlavergn/gopack/src/pack"
+
+func main() {
     pack := gopack.NewPack()
+    // A) extract to directory containting exectuable
     pack.Extract()
-    // -or-
+    // B) read from memory buffer
     pack.Load()
+    // b1) string value
     reader := pack.String("cmd/index.html")
-    // -for web-
+    // b2) pipe value (eg. http.resp)
     reader := pack.Pipe("cmd/index.html")
-    ioutil.Copy(resp, )
+    ioutil.Copy(resp, reader)
+}
 ```

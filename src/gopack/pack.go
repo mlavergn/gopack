@@ -10,11 +10,14 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 // logger stand-in
 var log *oslog.Logger
-var dDEBUG = false
+
+// DEBUG toggle
+var DEBUG = false
 
 // Pack export
 type Pack struct {
@@ -23,7 +26,7 @@ type Pack struct {
 
 // NewPack init
 func NewPack() *Pack {
-	if dDEBUG {
+	if DEBUG {
 		log = oslog.New(os.Stderr, "GoPack ", oslog.Ltime|oslog.Lshortfile)
 	} else {
 		log = oslog.New(ioutil.Discard, "", 0)
@@ -34,15 +37,20 @@ func NewPack() *Pack {
 	}
 }
 
-// Executable export
-func (id *Pack) Executable() string {
-	return os.Args[0]
+// Container export
+func (id *Pack) Container() string {
+	path, _ := os.Executable()
+	if strings.HasSuffix(path, "gopack.test") {
+		path, _ = os.Getwd()
+		path = filepath.Join(path, "..", "..", "test", "demo")
+	}
+	return path
 }
 
 // Reader export
 func (id *Pack) Reader() (*zip.Reader, error) {
 	log.Println("Reader")
-	executable := id.Executable()
+	executable := id.Container()
 	file, _ := os.Open(executable)
 	defer file.Close()
 
@@ -88,7 +96,7 @@ func (id *Pack) Reader() (*zip.Reader, error) {
 // Extract export
 func (id *Pack) Extract() ([]string, error) {
 	log.Println("Extract")
-	executable := id.Executable()
+	executable := id.Container()
 	basePath, _ := filepath.Split(executable)
 
 	keys := []string{}

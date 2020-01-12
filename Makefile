@@ -8,13 +8,13 @@
 
 .PHONY: test
 
-GOPATH = "${PWD}"
+VERSION := 1.0.0
 
 lint:
-	GOPATH=${GOPATH} ~/go/bin/golint .
+	golint .
 
 build:
-	GOPATH=${GOPATH} go build ./...
+	go build ./...
 
 EXECFILE = "demo"
 pack: build
@@ -25,15 +25,21 @@ pack: build
 	rm pack.zip main.pack
 
 demo: build
-	GOPATH=${GOPATH} go build -o demo cmd/demo.go
+	go build -o demo cmd/demo.go
 	$(MAKE) pack
+	cp demo test
 	./demo
 
 clean:
 	rm -f demo
 
 test: build
-	GOPATH=${GOPATH} go test -v ./src/...
+	go test -v ./src/...
 
 github:
 	open "https://github.com/mlavergn/gopack"
+
+release:
+	zip -r gopack.zip LICENSE README.md Makefile cmd src
+	hub release create -m "${VERSION} - GoPack" -a gopack.zip -t master "v${VERSION}"
+	open "https://github.com/mlavergn/gopack/releases"

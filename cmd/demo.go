@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gopack"
+	"github.com/mlavergn/gopack/src/pack"
 )
 
 func main() {
