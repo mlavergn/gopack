@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/mlavergn/gopack/src/pack"
+
+	pack "github.com/mlavergn/gopack/src/gopack"
 )
 
 func main() {
@@ -10,8 +11,8 @@ func main() {
 
 	extract := true
 
-	pack := gopack.NewPack()
-	fmt.Println(pack.Executable())
+	pack := pack.NewPack()
+	fmt.Println(pack.Container())
 	if extract {
 		pack.Extract()
 	} else {
