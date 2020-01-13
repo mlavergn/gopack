@@ -3,6 +3,7 @@ package pack
 import (
 	"crypto/md5"
 	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 )
@@ -30,7 +31,7 @@ func TestPack(t *testing.T) {
 	}
 
 	md5Expected := "b7a9a1f2ef4a3344f2e8f25df63d7ba1"
-	md5Actual := md5.Sum([]byte(html))
+	md5Actual := md5.Sum([]byte(*html))
 	if md5Actual != md5Actual {
 		t.Fatalf("File md5 %v files but expected %v", md5Actual, md5Expected)
 	}
@@ -47,5 +48,29 @@ func TestPack(t *testing.T) {
 
 	if len(data) != 75 {
 		t.Fatalf("Pipe len was %v but expected %v", len(data), 75)
+	}
+}
+
+func TestFile(t *testing.T) {
+	pack := NewPack()
+
+	_, err := pack.Load()
+	if err != nil {
+		t.Fatalf("Unable to load")
+	}
+
+	filePath, err := pack.File("cmd/index.html")
+	if err != nil {
+		t.Fatal("Error while reading file from pack", err)
+	}
+	defer os.Remove(*filePath)
+
+	stat, err := os.Stat(*filePath)
+	if err != nil {
+		t.Fatal("Error while stat-ing file from pack", err)
+	}
+
+	if stat.Size() != 75 {
+		t.Fatalf("File sizes differ %v vs expected 75", stat.Size())
 	}
 }

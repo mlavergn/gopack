@@ -186,11 +186,30 @@ func (id *Pack) Bytes(filePath string) ([]byte, error) {
 }
 
 // String export
-func (id *Pack) String(filePath string) (string, error) {
+func (id *Pack) String(filePath string) (*string, error) {
 	log.Println("String")
 	raw, err := id.Bytes(filePath)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(raw), nil
+	result := string(raw)
+	return &result, nil
+}
+
+// File export
+func (id *Pack) File(filePath string) (*string, error) {
+	data, err := id.Pipe(filePath)
+	if err != nil {
+		return nil, err
+	}
+	_, fileName := filepath.Split(filePath)
+
+	file, err := ioutil.TempFile("", fileName)
+	if err != nil {
+		return nil, err
+	}
+	tempPath := file.Name()
+
+	io.Copy(file, data)
+	return &tempPath, nil
 }
