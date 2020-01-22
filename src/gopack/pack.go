@@ -13,6 +13,9 @@ import (
 	"strings"
 )
 
+// Version export
+const Version = "1.1.1"
+
 // logger stand-in
 var log *oslog.Logger
 
@@ -64,7 +67,12 @@ func (id *Pack) Reader() (*zip.Reader, error) {
 	}
 
 	// convert packed length
-	packLen, contentErr := strconv.Atoi(string(offsetBuffer))
+	offsetString := strings.TrimSpace(string(offsetBuffer))
+	if len(offsetString) == 0 {
+		// no packed content
+		return nil, errors.New("No packed content found")
+	}
+	packLen, contentErr := strconv.Atoi(offsetString)
 	if contentErr != nil {
 		log.Println("Failed to convert packed length")
 		return nil, contentErr
