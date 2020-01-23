@@ -8,7 +8,7 @@
 
 .PHONY: test
 
-VERSION := 1.1.1
+VERSION := 1.1.2
 
 ver:
 	@sed -i '' 's/^const Version = "[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}"/const Version = "${VERSION}"/' src/gopack/pack.go

@@ -14,7 +14,7 @@ import (
 )
 
 // Version export
-const Version = "1.1.1"
+const Version = "1.1.2"
 
 // logger stand-in
 var log *oslog.Logger
@@ -57,7 +57,7 @@ func (id *Pack) Reader() (*zip.Reader, error) {
 	file, _ := os.Open(executable)
 	defer file.Close()
 
-	// read the packed length
+	// read the packed length from end of binary
 	file.Seek(-10, 2)
 	offsetBuffer := make([]byte, 10)
 	readLen, readErr := file.Read(offsetBuffer)
@@ -67,8 +67,11 @@ func (id *Pack) Reader() (*zip.Reader, error) {
 	}
 
 	// convert packed length
-	offsetString := strings.TrimSpace(string(offsetBuffer))
-	if len(offsetString) == 0 {
+	offsetString := string(offsetBuffer)
+	// validate that we have a packed length
+	const numerics = "1234567890"
+	const alphas = "abcdefghijklmnopqrstuvwxyz"
+	if strings.ContainsRune(offsetString, 0x00) || strings.ContainsAny(alphas, offsetString) || !strings.ContainsAny(numerics, offsetString[9:]) {
 		// no packed content
 		return nil, errors.New("No packed content found")
 	}

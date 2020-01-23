@@ -15,14 +15,26 @@ func main() {
 	fmt.Println(pack.Container())
 	switch demo {
 	case 1:
-		pack.Extract()
+		_, err := pack.Extract()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		break
 	case 2:
-		fmt.Println(pack.Load())
+		_, err := pack.Load()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		fmt.Println(pack.String("cmd/index.html"))
 		break
 	case 3:
-		fmt.Println(pack.Load())
+		_, err := pack.Load()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		filePath, _ := pack.File("cmd/index.html")
 		defer os.Remove(*filePath)
 		fmt.Println(*filePath)
