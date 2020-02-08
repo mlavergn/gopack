@@ -1,5 +1,6 @@
 [![Build Status](https://github.com/mlavergn/gopack/workflows/CI/badge.svg?branch=master)](https://github.com/mlavergn/gopack/actions)
 [![Go Report](https://goreportcard.com/badge/github.com/mlavergn/gopack)](https://goreportcard.com/report/github.com/mlavergn/gopack)
+[![GoDoc](https://godoc.org/github.com/mlavergn/gopack/src/gopack?status.svg)](https://godoc.org/github.com/mlavergn/gopack/src/gopack)
 
 # Go Pack
 
