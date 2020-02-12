@@ -4,7 +4,14 @@
 
 # Go Pack
 
-Lightweight dependency-free embedding of static files into Go executables
+Lightweight dependency-free embedding of static files into Go executables.
+
+There are other "embedding" type modules, namely:
+- [statik](https://github.com/rakyll/statik)
+
+However, those implementation did not fit the use case I was targeting.
+
+NOTE: Go Pack currently breaks is using code signing on macOS, there is a fix possible but it will break the existing steps.
 
 ## Implementation
 
@@ -12,15 +19,23 @@ The implementation assumes the following binary file structure
 
 ```text
 executable + zip contents + zip size
+
+offset 0
+Executable Data
+offset x - y
+Zip Data
+offset x - 10
+Zip Size (y)
+offset x
 ```
 
-The logic attempts to find a string size marker (32 bit) at the end of the Go executable. This marker is used
+The logic attempts to find a string represented size marker (10 bytes) at the end of the Go executable. This marker is used
 to calculate the offset of the zip contents from the end of the executable. The zip contents are optionally buffered
 and used to access the static files in the zip contents or extracted to the directory containing the executable.
 
 ## Usage
 
-For the purposes of the included demo, the following steps generate the expected executable file format:
+For the demo, the following steps were used to generate the expected executable file format:
 
 ```bash
     zip pack cmd/index.html
@@ -29,7 +44,7 @@ For the purposes of the included demo, the following steps generate the expected
     chmod +x TheExecutable
 ```
 
-The API is basic:
+The API is simply:
 
 ```golang
 package main
@@ -38,13 +53,16 @@ import "github.com/mlavergn/gopack/src/pack"
 
 func main() {
     pack := gopack.NewPack()
-    // A) extract to directory containting exectuable
+    // A) extract to working directory
     pack.Extract()
+    // -or-
     // B) read from memory buffer
     pack.Load()
     // b1) string value
-    reader := pack.String("cmd/index.html")
-    // b2) pipe value (eg. http.resp)
+    stringValue := pack.String("cmd/index.html")
+    // b2) []byte value
+    byteValue := pack.Bytes("cmd/index.html")
+    // b3) pipe value (eg. http.resp)
     reader := pack.Pipe("cmd/index.html")
     ioutil.Copy(resp, reader)
 }
