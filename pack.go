@@ -14,7 +14,7 @@ import (
 )
 
 // Version export
-const Version = "1.1.2"
+const Version = "1.2.0"
 
 // logger stand-in
 var log *oslog.Logger
@@ -45,7 +45,7 @@ func (id *Pack) Container() string {
 	path, _ := os.Executable()
 	if strings.HasSuffix(path, "gopack.test") {
 		path, _ = os.Getwd()
-		path = filepath.Join(path, "..", "..", "test", "demo")
+		path = filepath.Join(path, "test", "demo")
 	}
 	return path
 }

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	pack "github.com/mlavergn/gopack/src/gopack"
 	"os"
+
+	pack "github.com/mlavergn/gopack"
 )
 
 func main() {

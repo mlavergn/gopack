@@ -8,10 +8,10 @@
 
 .PHONY: test
 
-VERSION := 1.1.2
+VERSION := 1.2.0
 
 ver:
-	@sed -i '' 's/^const Version = "[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}"/const Version = "${VERSION}"/' src/gopack/pack.go
+	@sed -i '' 's/^const Version = "[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}"/const Version = "${VERSION}"/' pack.go
 
 lint:
 	golint .
@@ -37,12 +37,12 @@ clean:
 	rm -f demo
 
 test: build
-	go test -v ./src/...
+	go test -v ./...
 
 github:
 	open "https://github.com/mlavergn/gopack"
 
 release:
-	zip -r gopack.zip LICENSE README.md Makefile cmd src test
+	zip -r gopack.zip LICENSE README.md Makefile cmd test go.mod *.go
 	hub release create -m "${VERSION} - GoPack" -a gopack.zip -t master "v${VERSION}"
 	open "https://github.com/mlavergn/gopack/releases"
