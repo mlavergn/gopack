@@ -1,17 +1,18 @@
+# Go Pack
+
 [![Build Status](https://github.com/mlavergn/gopack/workflows/CI/badge.svg?branch=master)](https://github.com/mlavergn/gopack/actions)
 [![Go Report](https://goreportcard.com/badge/github.com/mlavergn/gopack)](https://goreportcard.com/report/github.com/mlavergn/gopack)
 [![GoDoc](https://godoc.org/github.com/mlavergn/gopack/src/gopack?status.svg)](https://godoc.org/github.com/mlavergn/gopack/src/gopack)
 
-# Go Pack
-
 Lightweight dependency-free embedding of static files into Go executables.
 
 There are other "embedding" type modules, namely:
+
 - [statik](https://github.com/rakyll/statik)
 
 However, those implementation did not fit the use case I was targeting.
 
-NOTE: Go Pack currently breaks is using code signing on macOS, there is a fix possible but it will break the existing steps.
+NOTE: Go Pack currently breaks when using code signing on macOS, there is a fix possible but it will break the existing steps.
 
 ## Implementation
 
@@ -38,10 +39,10 @@ and used to access the static files in the zip contents or extracted to the dire
 For the demo, the following steps were used to generate the expected executable file format:
 
 ```bash
-    zip pack cmd/index.html
-    printf "%010d" `stat -f%z pack.zip` >> pack.zip
-    mv TheExecutable main.pack; cat main.pack pack.zip > TheExecutable
-    chmod +x TheExecutable
+zip pack cmd/index.html
+printf "%010d" `stat -f%z pack.zip` >> pack.zip
+mv TheExecutable main.pack; cat main.pack pack.zip > TheExecutable
+chmod +x TheExecutable
 ```
 
 The API is simply:

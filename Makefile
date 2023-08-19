@@ -13,11 +13,14 @@ VERSION := 1.2.0
 ver:
 	@sed -i '' 's/^const Version = "[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}"/const Version = "${VERSION}"/' pack.go
 
+format:
+	go fmt
+
 lint:
-	golint .
+	go vet
 
 build:
-	go build ./...
+	go build pack.go
 
 EXECFILE = "demo"
 pack: build
@@ -46,3 +49,6 @@ release:
 	zip -r gopack.zip LICENSE README.md Makefile cmd test go.mod *.go
 	hub release create -m "${VERSION} - GoPack" -a gopack.zip -t master "v${VERSION}"
 	open "https://github.com/mlavergn/gopack/releases"
+
+st:
+	open -a SourceTree .
