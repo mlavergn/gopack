@@ -1,6 +1,6 @@
 # Go Pack
 
-[![Build Status](https://github.com/mlavergn/gopack/workflows/CI/badge.svg?branch=master)](https://github.com/mlavergn/gopack/actions)
+[![Build Status](https://github.com/mlavergn/gopack/actions/workflows/build.yml/badge.svg)](https://github.com/mlavergn/gopack/actions/workflows/build.yml)
 [![Go Report](https://goreportcard.com/badge/github.com/mlavergn/gopack)](https://goreportcard.com/report/github.com/mlavergn/gopack)
 [![GoDoc](https://godoc.org/github.com/mlavergn/gopack/src/gopack?status.svg)](https://godoc.org/github.com/mlavergn/gopack/src/gopack)
 
