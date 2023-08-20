@@ -6,13 +6,13 @@
 
 Lightweight dependency-free embedding of static files into Go executables.
 
-There are other "embedding" type modules, namely:
+This is a more popular "embedding" type module here:
 
 - [statik](https://github.com/rakyll/statik)
 
-However, those implementation did not fit the use case I was targeting.
+However, that implementation does not fit the use case I am targeting which is very resource constrained devices on readonly file systems. This implementation avoids external dependencies and aims for minimum overhead, features are intentonally minimal.
 
-NOTE: Go Pack currently breaks when using code signing on macOS, there is a fix possible but it will break the existing steps.
+NOTE: Go Pack currently breaks when using code signing on macOS, there is a fix possible but it is incompatble with the existing packaging process.
 
 ## Implementation
 
